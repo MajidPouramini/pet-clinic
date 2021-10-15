@@ -141,7 +141,6 @@ public class OwnerTest {
 		owner.addPet(mouse);
 		mouse.setId(1);
 
-		System.out.println(owner.getPets());
 		assertEquals(owner.getPet(mouse.getName()), mouse);
 		assertEquals(owner.getPet(cat.getName()), cat);
 	}
@@ -153,7 +152,6 @@ public class OwnerTest {
 		owner.addPet(mouse);
 		mouse.setId(1);
 
-		System.out.println(mouse.getId());
 		assertEquals(owner.getPet(mouse.getName(), false), mouse);
 		assertEquals(owner.getPet(mouse.getName(), true), mouse);
 
