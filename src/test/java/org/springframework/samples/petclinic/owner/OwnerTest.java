@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.lang.reflect.Field;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,16 +12,16 @@ import static org.junit.jupiter.api.Assertions.*;
 public class OwnerTest {
 	Owner owner;
 
-	final static String ADDRESS_TEST_TEHRAN = "Tehran, Iran";
-	final static String ADDRESS_TEST_MASHHAD = "Mashhad, Iran";
-	final static String CITY_TEST_TEHRAN = "Tehran";
-	final static String CITY_TEST_MASHHAD = "Mashhad";
-	final static String PHONE_TEST_1 = "09123456789";
-	final static String PHONE_TEST_2 = "09129876543";
+	private final static String ADDRESS_TEST_TEHRAN = "Tehran, Iran";
+	private final static String ADDRESS_TEST_MASHHAD = "Mashhad, Iran";
+	private final static String CITY_TEST_TEHRAN = "Tehran";
+	private final static String CITY_TEST_MASHHAD = "Mashhad";
+	private final static String PHONE_TEST_1 = "09123456789";
+	private final static String PHONE_TEST_2 = "09129876543";
 
-	Pet dog = new Pet();
-	Pet cat = new Pet();
-	Pet mouse = new Pet();
+	private static Pet dog = new Pet();
+	private static Pet cat = new Pet();
+	private static Pet mouse = new Pet();
 
 	@Before
 	public void setup() {
@@ -47,13 +48,38 @@ public class OwnerTest {
 
 	@Test
 	public void getAddressTest() {
-		assertEquals(ADDRESS_TEST_TEHRAN, owner.getAddress());
+		//Given
+		try {
+			final Field field = owner.getClass().getDeclaredField("address");
+			field.setAccessible(true);
+			field.set(owner, ADDRESS_TEST_TEHRAN);	
+		} catch (Exception e) {
+			fail("setting address failed");
+		}
+
+		//When
+		final String result = owner.getAddress();
+
+		//Then
+		assertEquals(ADDRESS_TEST_TEHRAN, result);
 	}
+
 
 	@Test
 	public void setAddressTest() {
+		//Given
+
+		//When
 		owner.setAddress(ADDRESS_TEST_MASHHAD);
-		assertEquals(ADDRESS_TEST_MASHHAD, owner.getAddress());
+
+		//Then
+		try {
+			final Field field = owner.getClass().getDeclaredField("address");
+			field.setAccessible(true);	
+			assertEquals(ADDRESS_TEST_MASHHAD, field.get(owner));
+		} catch (Exception e) {
+			fail("setting address failed");
+		}
 	}
 
 	@Test
