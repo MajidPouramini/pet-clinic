@@ -29,9 +29,9 @@ public class OwnerTest {
 		owner.setCity(city1);
 		owner.setTelephone(phone1);
 
-		dog.setName("Dog");
-		cat.setName("Cat");
-		mouse.setName("Mouse");
+		dog.setName("dog");
+		cat.setName("cat");
+		mouse.setName("mouse");
 
 		owner.addPet(dog);
 		owner.addPet(cat);
@@ -40,11 +40,11 @@ public class OwnerTest {
 
 	@Test
 	public void getAddressTest() {
-		 assertEquals(address1, owner.getAddress());
+		assertEquals(address1, owner.getAddress());
 	}
 
 	@Test
-	public void setAddress() {
+	public void setAddressTest() {
 		owner.setAddress(address2);
 		assertEquals(address2, owner.getAddress());
 	}
@@ -114,6 +114,44 @@ public class OwnerTest {
 		assertEquals(owner.getPets().get(0), cat);
 		assertEquals(1, owner.getPets().size());
 		assertEquals(owner.getPets().get(0).getOwner(), owner);
+	}
+
+	@Test
+	public void removePetTest() {
+		owner.setPetsInternal(new HashSet<>());
+		owner.addPet(cat);
+		owner.addPet(dog);
+		owner.removePet(cat);
+
+		assertEquals(owner.getPet(dog.getName()), dog);
+		assertNull(owner.getPet(cat.getName()));
+	}
+
+	@Test
+	public void getPetTest() {
+		owner.setPetsInternal(new HashSet<>());
+		owner.addPet(cat);
+		owner.addPet(mouse);
+		mouse.setId(1);
+
+		System.out.println(owner.getPets());
+		assertEquals(owner.getPet(mouse.getName()), mouse);
+		assertEquals(owner.getPet(cat.getName()), cat);
+	}
+
+	@Test
+	public void getPetWithIgnoreNewParam() {
+		owner.setPetsInternal(new HashSet<>());
+		owner.addPet(cat);
+		owner.addPet(mouse);
+		mouse.setId(1);
+
+		System.out.println(mouse.getId());
+		assertEquals(owner.getPet(mouse.getName(), false), mouse);
+		assertEquals(owner.getPet(mouse.getName(), true), mouse);
+
+		assertEquals(owner.getPet(cat.getName(), false), cat);
+		assertNull(owner.getPet(cat.getName(), true));
 	}
 
 	@After
