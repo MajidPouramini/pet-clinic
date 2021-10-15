@@ -11,12 +11,12 @@ import static org.junit.jupiter.api.Assertions.*;
 public class OwnerTest {
 	Owner owner;
 
-	String address1 = "Tehran, Iran";
-	String address2 = "Mashhad, Iran";
-	String city1 = "Tehran";
-	String city2 = "Mashhad";
-	String phone1 = "09123456789";
-	String phone2 = "09129876543";
+	final static String ADDRESS_TEST_TEHRAN = "Tehran, Iran";
+	final static String ADDRESS_TEST_MASHHAD = "Mashhad, Iran";
+	final static String CITY_TEST_TEHRAN = "Tehran";
+	final static String CITY_TEST_MASHHAD = "Mashhad";
+	final static String PHONE_TEST_1 = "09123456789";
+	final static String PHONE_TEST_2 = "09129876543";
 
 	Pet dog = new Pet();
 	Pet cat = new Pet();
@@ -25,9 +25,9 @@ public class OwnerTest {
 	@Before
 	public void setup() {
 		owner = new Owner();
-		owner.setAddress(address1);
-		owner.setCity(city1);
-		owner.setTelephone(phone1);
+		owner.setAddress(ADDRESS_TEST_TEHRAN);
+		owner.setCity(CITY_TEST_TEHRAN);
+		owner.setTelephone(PHONE_TEST_1);
 
 		dog.setName("dog");
 		cat.setName("cat");
@@ -35,40 +35,47 @@ public class OwnerTest {
 
 		owner.addPet(dog);
 		owner.addPet(cat);
+	}
 
+	@After
+	public void teardown() {
+		owner = null;
+		dog = null;
+		cat = null;
+		mouse = null;
 	}
 
 	@Test
 	public void getAddressTest() {
-		assertEquals(address1, owner.getAddress());
+		assertEquals(ADDRESS_TEST_TEHRAN, owner.getAddress());
 	}
 
 	@Test
 	public void setAddressTest() {
-		owner.setAddress(address2);
-		assertEquals(address2, owner.getAddress());
+		owner.setAddress(ADDRESS_TEST_MASHHAD);
+		assertEquals(ADDRESS_TEST_MASHHAD, owner.getAddress());
 	}
 
 	@Test
 	public void getCityTest() {
-		assertEquals(city1, owner.getCity());
+		assertEquals(CITY_TEST_TEHRAN, owner.getCity());
 	}
 
 	@Test
 	public void setCityTest() {
-		owner.setCity(city2);
-		assertEquals(city2, owner.getCity());
+		owner.setCity(CITY_TEST_MASHHAD);
+		assertEquals(CITY_TEST_MASHHAD, owner.getCity());
 	}
 
 	@Test
 	public void getTelephoneTest() {
-		assertEquals(phone1, owner.getTelephone());
+		assertEquals(PHONE_TEST_1, owner.getTelephone());
 	}
 
 	@Test
 	public void setTelephoneTest() {
-		owner.setTelephone(phone2);
-		assertEquals(phone2, owner.getTelephone());
+		owner.setTelephone(PHONE_TEST_2);
+		assertEquals(PHONE_TEST_2, owner.getTelephone());
 	}
 
 	@Test
@@ -134,7 +141,6 @@ public class OwnerTest {
 		owner.addPet(mouse);
 		mouse.setId(1);
 
-		System.out.println(owner.getPets());
 		assertEquals(owner.getPet(mouse.getName()), mouse);
 		assertEquals(owner.getPet(cat.getName()), cat);
 	}
@@ -146,19 +152,10 @@ public class OwnerTest {
 		owner.addPet(mouse);
 		mouse.setId(1);
 
-		System.out.println(mouse.getId());
 		assertEquals(owner.getPet(mouse.getName(), false), mouse);
 		assertEquals(owner.getPet(mouse.getName(), true), mouse);
 
 		assertEquals(owner.getPet(cat.getName(), false), cat);
 		assertNull(owner.getPet(cat.getName(), true));
-	}
-
-	@After
-	public void teardown() {
-		owner = null;
-		dog = null;
-		cat = null;
-		mouse = null;
 	}
 }
