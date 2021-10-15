@@ -23,6 +23,15 @@ public class OwnerTest {
 	private static Pet cat = new Pet();
 	private static Pet mouse = new Pet();
 
+
+	/**
+	 * Test class for {@link Owner}
+	 *
+	 * Testing getters/setters in Java is a bit hard in Java There is an example in getAddressTest and 
+	 * setAddressTest but as getters/setters usually doesn't contain any logic,and doesn't require testing.
+	 * 
+	 */
+
 	@Before
 	public void setup() {
 		owner = new Owner();
