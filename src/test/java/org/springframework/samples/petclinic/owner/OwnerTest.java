@@ -19,17 +19,17 @@ public class OwnerTest {
 	private final static String PHONE_TEST_1 = "09123456789";
 	private final static String PHONE_TEST_2 = "09129876543";
 
-	private static Pet dog = new Pet();
-	private static Pet cat = new Pet();
-	private static Pet mouse = new Pet();
+	private static Pet dog;
+	private static Pet cat;
+	private static Pet mouse;
 
 
 	/**
 	 * Test class for {@link Owner}
 	 *
-	 * Testing getters/setters in Java is a bit hard in Java There is an example in getAddressTest and 
+	 * Testing getters/setters in Java is a bit hard in Java There is an example in getAddressTest and
 	 * setAddressTest but as getters/setters usually doesn't contain any logic,and doesn't require testing.
-	 * 
+	 *
 	 */
 
 	@Before
@@ -38,6 +38,10 @@ public class OwnerTest {
 		owner.setAddress(ADDRESS_TEST_TEHRAN);
 		owner.setCity(CITY_TEST_TEHRAN);
 		owner.setTelephone(PHONE_TEST_1);
+
+		dog = new Pet();
+		cat = new Pet();
+		mouse = new Pet();
 
 		dog.setName("dog");
 		cat.setName("cat");
@@ -61,7 +65,7 @@ public class OwnerTest {
 		try {
 			final Field field = owner.getClass().getDeclaredField("address");
 			field.setAccessible(true);
-			field.set(owner, ADDRESS_TEST_TEHRAN);	
+			field.set(owner, ADDRESS_TEST_TEHRAN);
 		} catch (Exception e) {
 			fail("setting address failed");
 		}
@@ -84,7 +88,7 @@ public class OwnerTest {
 		//Then
 		try {
 			final Field field = owner.getClass().getDeclaredField("address");
-			field.setAccessible(true);	
+			field.setAccessible(true);
 			assertEquals(ADDRESS_TEST_MASHHAD, field.get(owner));
 		} catch (Exception e) {
 			fail("setting address failed");
