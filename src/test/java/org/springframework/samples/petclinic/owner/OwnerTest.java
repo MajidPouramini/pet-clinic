@@ -32,6 +32,18 @@ public class OwnerTest {
 		assertTrue(owner.getPets().contains(newPet));
 	}
 
+    // Behavior Verification test for Owner
+    @Test
+	public void addPetTestBehaviorVerification() {
+        //given
+		Pet mockPet = mock(Pet.class);
 
-    
+        //when
+		when(mockPet.isNew()).thenReturn(true);
+		owner.addPet(mockPet);
+
+        //then
+		verify(mockPet).setOwner(owner);
+		assertTrue(owner.getPets().contains(mockPet));
+	}    
 }
