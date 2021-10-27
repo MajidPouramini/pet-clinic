@@ -5,7 +5,7 @@ import org.springframework.samples.petclinic.utility.SimpleDI;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PetServiceTest {
+class PetManagerTest {
 
 
 }

@@ -40,12 +40,12 @@ class PetController {
 
 	private final OwnerRepository owners;
 
-	private final PetService petService;
+	private final PetManager petManager;
 
-	public PetController(PetRepository pets, OwnerRepository owners, PetService petService) {
+	public PetController(PetRepository pets, OwnerRepository owners, PetManager petManager) {
 		this.pets = pets;
 		this.owners = owners;
-		this.petService = petService;
+		this.petManager = petManager;
 	}
 
 	@ModelAttribute("types")
@@ -55,7 +55,7 @@ class PetController {
 
 	@ModelAttribute("owner")
 	public Owner findOwner(@PathVariable("ownerId") int ownerId) {
-		return this.petService.findOwner(ownerId);
+		return this.petManager.findOwner(ownerId);
 	}
 
 	@InitBinder("owner")
@@ -70,7 +70,7 @@ class PetController {
 
 	@GetMapping("/pets/new")
 	public String initCreationForm(Owner owner, ModelMap model) {
-		Pet pet = petService.newPet(owner);
+		Pet pet = petManager.newPet(owner);
 		model.put("pet", pet);
 		return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 	}
@@ -86,14 +86,14 @@ class PetController {
 			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 		}
 		else {
-			this.petService.savePet(pet, owner);
+			this.petManager.savePet(pet, owner);
 			return "redirect:/owners/{ownerId}";
 		}
 	}
 
 	@GetMapping("/pets/{petId}/edit")
 	public String initUpdateForm(@PathVariable("petId") int petId, ModelMap model) {
-		Pet pet = this.petService.findPet(petId);
+		Pet pet = this.petManager.findPet(petId);
 		model.put("pet", pet);
 		return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 	}
@@ -106,7 +106,7 @@ class PetController {
 			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 		}
 		else {
-			petService.savePet(pet, owner);
+			petManager.savePet(pet, owner);
 			return "redirect:/owners/{ownerId}";
 		}
 	}

@@ -42,7 +42,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest(value = PetController.class,
 		includeFilters = {
 	@ComponentScan.Filter(value = PetTypeFormatter.class, type = FilterType.ASSIGNABLE_TYPE),
-	@ComponentScan.Filter(value = PetService.class, type = FilterType.ASSIGNABLE_TYPE),
+	@ComponentScan.Filter(value = PetManager.class, type = FilterType.ASSIGNABLE_TYPE),
 	@ComponentScan.Filter(value = LoggerConfig.class, type = FilterType.ASSIGNABLE_TYPE),
 	@ComponentScan.Filter(value = PetTimedCache.class, type = FilterType.ASSIGNABLE_TYPE),
 	}
