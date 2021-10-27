@@ -122,7 +122,7 @@ public class PetManagerTestClassical {
 	 * Method: behavior
 	 */
 	@Test
-	public void getOwnerPetTypes() {
+	public void getOwnerPetTypesTest() {
         //given
 		when(owners.findById(OWNER_ID_TEST)).thenReturn(testOwner);
 
