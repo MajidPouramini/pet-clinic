@@ -187,7 +187,7 @@ class TriCongruenceTest {
 	)
 	@Test
 	public void test7() {
-		assertTrue(predicateForMakeTriangle(new double[] {-1, 2, 8}));
+		assertTrue(predicateForMakeTriangle(new double[] {-1, 7, 2}));
 	}
 
 	@ClauseCoverage(
