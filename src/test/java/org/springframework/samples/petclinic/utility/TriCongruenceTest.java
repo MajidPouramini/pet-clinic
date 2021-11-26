@@ -203,13 +203,11 @@ class TriCongruenceTest {
 	}
 
 	/**
-	 * TODO
-	 * explain your answer here
+	 * CUTPNFP: {TTFF, FFTT, TFFF, FTFF, FFTF, FFFT}
+	 * UTPC: {TTFF, TTFT, TTTF, FFTT, FTTT, TFTT, FTFT, FTTF, TFFT, TFTF}
 	 */
 	private static boolean questionTwo(boolean a, boolean b, boolean c, boolean d, boolean e) {
-		boolean predicate = false;
-//		predicate = a predicate with any number of clauses
-		return predicate;
+		return (a && b) || (c && d);
 	}
 
 	@Test
