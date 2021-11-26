@@ -130,6 +130,79 @@ class TriCongruenceTest {
 
 
 	/**
+	 * Line 15 tests using clause coverage and correlated active clause coverage
+	 */
+	@ClauseCoverage(
+		predicate = "p + q",
+		valuations = {
+			@Valuation(clause = 'p', valuation = false),
+			@Valuation(clause = 'q', valuation = false)
+		}
+	)
+	@CACC(
+		predicate = "p + q",
+		majorClause = 'p',
+		valuations = {
+			@Valuation(clause = 'p', valuation = false),
+			@Valuation(clause = 'q', valuation = false)
+		},
+		predicateValue = false
+	)
+	@CACC(
+		predicate = "p + q",
+		majorClause = 'q',
+		valuations = {
+			@Valuation(clause = 'p', valuation = false),
+			@Valuation(clause = 'q', valuation = false)
+		},
+		predicateValue = false
+	)
+	@Test
+	public void test5() {
+		assertFalse(predicateForMakeTriangle(new double[] {1, 2, 3}));
+	}
+
+	@CACC(
+		predicate = "p + q",
+		majorClause = 'q',
+		valuations = {
+			@Valuation(clause = 'p', valuation = false),
+			@Valuation(clause = 'q', valuation = true)
+		},
+		predicateValue = true
+	)
+	@Test
+	public void test6() {
+		assertTrue(predicateForMakeTriangle(new double[] {1, 2, 8}));
+	}
+
+	@CACC(
+		predicate = "p + q",
+		majorClause = 'p',
+		valuations = {
+			@Valuation(clause = 'p', valuation = true),
+			@Valuation(clause = 'q', valuation = false)
+		},
+		predicateValue = true
+	)
+	@Test
+	public void test7() {
+		assertTrue(predicateForMakeTriangle(new double[] {-1, 2, 8}));
+	}
+
+	@ClauseCoverage(
+		predicate = "p + q",
+		valuations = {
+			@Valuation(clause = 'p', valuation = true),
+			@Valuation(clause = 'q', valuation = true)
+		}
+	)
+	@Test
+	public void test8() {
+		assertTrue(predicateForMakeTriangle(new double[] {-1, 2, 3}));
+	}
+
+	/**
 	 * TODO
 	 * explain your answer here
 	 */
