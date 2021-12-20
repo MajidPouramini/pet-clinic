@@ -58,7 +58,7 @@ public class PriceCalculatorTest {
 		assertEquals(expectedPrice, actualPrice);
 	}
 
-
+	/***/
 	@Test
 	public void calcPriceReturnOnePetPriceEvenIfItHasVisits() {
 		ArrayList<Visit> visits = new ArrayList<>();
