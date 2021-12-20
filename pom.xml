@@ -248,13 +248,13 @@
         <version>${pitest.version}</version>
         <configuration>
           <targetClasses>
-            <param>org.springframework.samples.petclinic.owner.VisitController</param>
+            <param>org.springframework.samples.petclinic.utility.PriceCalculator</param>
           </targetClasses>
           <targetTests>
-            <param>org.springframework.samples.petclinic.owner.VisitControllerTests</param>
+            <param>org.springframework.samples.petclinic.utility.PriceCalculatorTest</param>
           </targetTests>
           <mutators>
-            <mutator>ROR</mutator>
+            <mutator>ALL</mutator>
           </mutators>
         </configuration>
         <dependencies>
