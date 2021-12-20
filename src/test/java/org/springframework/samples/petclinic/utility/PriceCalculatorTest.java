@@ -11,6 +11,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import java.time.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -100,25 +102,103 @@ public class PriceCalculatorTest {
 		assertEquals(expectedPrice, actualPrice);
 	}
 
+
+	/**
+
+	 each infant should increase (discountCounter + 2) test 
+	
+	 * */
 	@Test
-	public void calcPriceShouldNotApplyDiscountIfDiscountMinScoreIsNotReached() {
+	public void calcPriceEachInfantShouldIncreaseCountBy2() {
+		//given
+		when(infantPet.getVisitsUntilAge(INFANT_AGE)).thenReturn(newVisits);
 		List<Pet> pets = new ArrayList<>();
-		for (int i = 0; i < DISCOUNT_MIN_SCORE - 1; ++i)
-			pets.add(pet);
-		double expectedPrice = pets.size() * SINGLE_PET_PRICE;
-		double actualPrice = calcPrice(pets, BASE_CHARGE, BASE_PRICE_PER_PET);
-		assertEquals(expectedPrice, actualPrice);
+		int required_size=DISCOUNT_MIN_SCORE/2;
+		//when
+		for (int i = 0; i < required_size; ++i)
+			pets.add(infantPet);
+
+		final double calcedPrice = calcPrice(pets, BASE_CHARGE, BASE_PRICE_PER_PET);
+		final double priceBeforeMinScore = (required_size - 1) * SINGLE_INFANT_PET_PRICE;
+		final double expectedPrice = priceBeforeMinScore * DISCOUNT_PRE_VISIT + BASE_CHARGE + SINGLE_INFANT_PET_PRICE;
+		//then
+		assertEquals(expectedPrice, calcedPrice, DELTA);
 	}
 
+	/**
+
+	  test price for new vists (ADULT_AGE) + has minimum discountCounter 
+	  shoult calcualte totalPrice = (totalPrice * DISCOUNT_PRE_VISIT) + baseCharge;
+
+	 * */
 	@Test
-	public void calcPriceShouldApplyDiscountPreVisitAfterDiscountMinScoreIsReachedForNewVisits() {
+	public void calcPriceWithDoscount calcPriceShouldApplyDiscountWhenMinScoreForNewVisits() {
+		//given
 		when(pet.getVisitsUntilAge(ADULT_AGE)).thenReturn(newVisits);
 		List<Pet> pets = new ArrayList<>();
+		//when
+		for (int i = 0; i < DISCOUNT_MIN_SCORE + 1; ++i)
+			pets.add(pet);
+		final double calcedPrice = calcPrice(pets, BASE_CHARGE, BASE_PRICE_PER_PET);
+		final double priceBeforeMinScore = (pets.size() - 1) * SINGLE_PET_PRICE;
+		final double priceFirstDiscount = priceBeforeMinScore * DISCOUNT_PRE_VISIT + BASE_CHARGE + SINGLE_PET_PRICE;
+		final double priceSecondDiscount = priceFirstDiscount * DISCOUNT_PRE_VISIT + BASE_CHARGE + SINGLE_PET_PRICE;
+		final double expectedPrice = priceSecondDiscount * DISCOUNT_PRE_VISIT + BASE_CHARGE + SINGLE_PET_PRICE;
+		//then
+		assertEquals(expectedPrice, calcedPrice, DELTA);
+	}
+
+	/**
+
+	  test price for old vists (INFANT_AGE) + has minimum discountCounter 
+	  shoult calcualte totalPrice = (totalPrice + baseCharge) * (daysFromLastVisit / 100 + visits.size());
+
+	 * */
+	@Test
+	public void calcPriceShouldApplyDiscountForOldVisitsInfants() {
+		//given
+		final int OLD_VISIT_DAYS = OLD_VISIT_THRESH + 1;
+		LocalDate visited_date = LocalDate.now().minusDays(OLD_VISIT_DAYS);
+
+		final Visit oldVisit = new Visit().setDate(visited_date);
+		final List<Visit> visits = Arrays.asList(newVisit, newVisit, oldVisit, oldVisit);
+		when(infantPet.getVisitsUntilAge(INFANT_AGE)).thenReturn(visits);
+		List<Pet> pets = new ArrayList<>();
+		int required_size=DISCOUNT_MIN_SCORE/2;
+		//when
+		for (int i = 0; i < required_size; ++i)
+			pets.add(infantPet);
+		final double calcedPrice = calcPrice(pets, BASE_CHARGE, BASE_PRICE_PER_PET);
+		final double priceBeforeMinScore = (required_size - 1) * SINGLE_INFANT_PET_PRICE;
+		final int oldVisitDiscount = OLD_VISIT_DAYS/OLD_VISIT_THRESH + visits.size();
+		final double expectedPrice = (priceBeforeMinScore + BASE_CHARGE) * oldVisitDiscount + SINGLE_INFANT_PET_PRICE;
+		//then
+		assertEquals(expectedPrice, calcedPrice, DELTA);
+	}
+
+	/**
+
+	  test price for old vists (ADULT_AGE) + has minimum discountCounter 
+	  shoult calcualte totalPrice = (totalPrice + baseCharge) * (daysFromLastVisit / 100 + visits.size());
+
+	 * */
+	@Test
+	public void calcPriceShouldApplyDiscountForOldVisitsAdult() {
+		//given
+		final int OLD_VISIT_DAYS = OLD_VISIT_THRESH + 1;
+		LocalDate visited_date = LocalDate.now().minusDays(OLD_VISIT_DAYS);
+		final Visit oldVisit = new Visit().setDate(visited_date);
+		final List<Visit> visits = Collections.singletonList(oldVisit);
+		when(pet.getVisitsUntilAge(ADULT_AGE)).thenReturn(visits);
+		List<Pet> pets = new ArrayList<>();
+		//when
 		for (int i = 0; i < DISCOUNT_MIN_SCORE; ++i)
 			pets.add(pet);
-		double priceBeforeMinScore = (DISCOUNT_MIN_SCORE - 1) * SINGLE_PET_PRICE;
-		double expectedPrice = priceBeforeMinScore * DISCOUNT_PRE_VISIT + BASE_CHARGE + SINGLE_PET_PRICE;
-		double actualPrice = calcPrice(pets, BASE_CHARGE, BASE_PRICE_PER_PET);
-		assertEquals(expectedPrice, actualPrice);
+		final double calcedPrice = calcPrice(pets, BASE_CHARGE, BASE_PRICE_PER_PET);
+		final double priceBeforeMinScore = (DISCOUNT_MIN_SCORE - 1) * SINGLE_PET_PRICE;
+		final int oldVisitDiscount = OLD_VISIT_DAYS/OLD_VISIT_THRESH + visits.size();
+		final double expectedPrice = (priceBeforeMinScore + BASE_CHARGE) * oldVisitDiscount + SINGLE_PET_PRICE;
+		//then
+		assertEquals(expectedPrice, calcedPrice, DELTA);
 	}
 }
