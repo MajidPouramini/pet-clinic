@@ -63,7 +63,7 @@ public class CustomerDependentPriceCalculatorTest {
 	public void calcPriceShouldReturnBaseChargeIfThereAreNoPetsForNonGoldUser() {
 		double price = customerDependentPriceCalculator.calcPrice(Collections.emptyList(), BASE_CHARGE,
 			BASE_PRICE_PER_PET, NEW_USER);
-		assertEquals(BASE_CHARGE, price, DELTA);
+		assertEquals(0, price, DELTA);
 	}
 
 	@Test
@@ -77,7 +77,7 @@ public class CustomerDependentPriceCalculatorTest {
 	public void calcPriceShouldNotApplyAnyDiscountForNonGoldUsersWhenDiscountMinScoreIsNotReached() {
 		double price = customerDependentPriceCalculator.calcPrice(Collections.singletonList(commonPet), BASE_CHARGE,
 			BASE_PRICE_PER_PET, NEW_USER);
-		double expectedPrice = BASE_CHARGE + BASE_PRICE_PER_PET;
+		double expectedPrice = BASE_PRICE_PER_PET;
 		assertEquals(expectedPrice, price, DELTA);
 	}
 
@@ -107,7 +107,7 @@ public class CustomerDependentPriceCalculatorTest {
 	public void calcPriceShouldApplyCommonInfancyCoefForCommonInfantPets() {
 		double price = customerDependentPriceCalculator.calcPrice(Collections.singletonList(commonInfantPet),
 			BASE_CHARGE, BASE_PRICE_PER_PET, NEW_USER);
-		double expectedPrice = BASE_CHARGE + BASE_PRICE_PER_PET * COMMON_INFANCY_COEF;
+		double expectedPrice = BASE_PRICE_PER_PET * COMMON_INFANCY_COEF;
 		assertEquals(expectedPrice, price, DELTA);
 	}
 
@@ -115,7 +115,7 @@ public class CustomerDependentPriceCalculatorTest {
 	public void calcPriceShouldApplyRareCoefForRarePets() {
 		double price = customerDependentPriceCalculator.calcPrice(Collections.singletonList(rarePet),
 			BASE_CHARGE, BASE_PRICE_PER_PET, NEW_USER);
-		double expectedPrice = BASE_CHARGE + BASE_PRICE_PER_PET * BASE_RARE_COEF;
+		double expectedPrice = BASE_PRICE_PER_PET * BASE_RARE_COEF;
 		assertEquals(expectedPrice, price, DELTA);
 	}
 
@@ -123,7 +123,7 @@ public class CustomerDependentPriceCalculatorTest {
 	public void calcPriceShouldApplyRareCoefAndRareInfancyCoefForRareInfantPets() {
 		double price = customerDependentPriceCalculator.calcPrice(Collections.singletonList(rareInfantPet),
 			BASE_CHARGE, BASE_PRICE_PER_PET, NEW_USER);
-		double expectedPrice = BASE_CHARGE + BASE_PRICE_PER_PET * BASE_RARE_COEF * RARE_INFANCY_COEF;
+		double expectedPrice = BASE_PRICE_PER_PET * BASE_RARE_COEF * RARE_INFANCY_COEF;
 		assertEquals(expectedPrice, price, DELTA);
 	}
 }
